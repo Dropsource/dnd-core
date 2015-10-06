@@ -1,5 +1,5 @@
 {
-  "name": "dnd-core",
+  "name": "dropsource-dnd-core",
   "version": "1.2.1",
   "description": "Drag and drop sans the GUI",
   "main": "lib/index.js",
@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gaearon/dnd-core.git"
+    "url": "https://github.com/dropsource/dnd-core.git"
   },
   "author": "Dan Abramov <dan.abramov@me.com> (http://github.com/gaearon)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/gaearon/dnd-core/issues"
+    "url": "https://github.com/dropsource/dnd-core/issues"
   },
-  "homepage": "https://github.com/gaearon/dnd-core",
+  "homepage": "https://github.com/dropsource/dnd-core",
   "devDependencies": {
     "babel": "^5.8.23",
     "babel-plugin-object-assign": "^1.2.1",

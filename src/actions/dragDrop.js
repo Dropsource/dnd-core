@@ -138,8 +138,17 @@ export function drop() {
     .filter(monitor.canDropOnTarget, monitor);
 
   targetIds.reverse();
-  targetIds.forEach((targetId, index) => {
-    const target = registry.getTarget(targetId);
+
+  let targetsData = targetIds.map((targetId) => {
+    return {
+      id: targetId,
+      target: registry.getTarget(targetId)
+    };
+  });
+
+  targetsData.forEach((data, index) => {
+    const targetId = data.targetId;
+    const target = data.target;
 
     let dropResult = target.drop(monitor, targetId);
     invariant(

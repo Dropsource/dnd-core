@@ -1,6 +1,6 @@
 {
   "name": "dropsource-dnd-core",
-  "version": "1.2.1",
+  "version": "1.2.1-ds.1",
   "description": "Drag and drop sans the GUI",
   "main": "lib/index.js",
   "scripts": {

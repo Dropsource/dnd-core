@@ -113,15 +113,16 @@ export default class DragDropMonitor {
     }
 
     let targetIds = this.getTargetIds();
-    if (!targetIds.length) {
-      return false;
-    }
 
     if (filterTargets) {
       targetIds = targetIds.filter(id => {
         const type = this.registry.getTargetType(id);
         return matchesType(type, draggedItemType);
       });
+    }
+
+    if (!targetIds.length) {
+      return false;
     }
 
     const index = targetIds.indexOf(targetId);

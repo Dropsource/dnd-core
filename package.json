@@ -1,6 +1,6 @@
 {
   "name": "dropsource-dnd-core",
-  "version": "1.2.1-ds.3",
+  "version": "2.0.1-ds.4",
   "description": "Drag and drop sans the GUI",
   "main": "lib/index.js",
   "scripts": {
@@ -30,9 +30,9 @@
     "rimraf": "^2.4.3"
   },
   "dependencies": {
+    "asap": "2.0.3",
     "invariant": "2.0.0",
-    "keymirror": "0.1.1",
-    "lodash": "3.10.1",
-    "redux": "3.0.2"
+    "lodash": "4.2.0",
+    "redux": "3.2.0"
   }
 }

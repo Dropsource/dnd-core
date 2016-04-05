@@ -1,5 +1,5 @@
 import expect from 'expect.js';
-import Types from './types';
+import * as Types from './types';
 import { NormalSource, NonDraggableSource, NumberSource } from './sources';
 import { NormalTarget, NonDroppableTarget, TargetWithNoDropResult } from './targets';
 import { DragDropManager, createTestBackend } from '../src';
@@ -53,6 +53,23 @@ describe('DragDropMonitor', () => {
     it('raises global change event on beginDrag()', (done) => {
       const source = new NormalSource();
       const sourceId = registry.addSource(Types.FOO, source);
+
+      monitor.subscribeToStateChange(done);
+      backend.simulateBeginDrag([sourceId]);
+    });
+
+    it('raises global change event on beginDrag() even if a subscriber causes other changes', (done) => {
+      const source = new NormalSource();
+      const sourceId = registry.addSource(Types.FOO, source);
+      const target = new NormalTarget()
+
+      let notified = false;
+      monitor.subscribeToStateChange(() => {
+        if (!notified) {
+          notified = true;
+          registry.addTarget(Types.FOO, target);
+        }
+      });
 
       monitor.subscribeToStateChange(done);
       backend.simulateBeginDrag([sourceId]);
@@ -1405,19 +1422,19 @@ describe('DragDropMonitor', () => {
       expect(monitor.isDraggingSource(sourceAId)).to.equal(false);
       expect(monitor.isDraggingSource(sourceBId)).to.equal(true);
       expect(monitor.isDraggingSource(sourceCId)).to.equal(false);
-      expect(() => monitor.isDraggingSource(sourceDId)).to.throwError();
+      expect(monitor.isDraggingSource(sourceDId)).to.equal(true);
 
       backend.simulateEndDrag();
       expect(monitor.isDraggingSource(sourceAId)).to.equal(false);
       expect(monitor.isDraggingSource(sourceBId)).to.equal(false);
       expect(monitor.isDraggingSource(sourceCId)).to.equal(false);
-      expect(() => monitor.isDraggingSource(sourceDId)).to.throwError();
+      expect(monitor.isDraggingSource(sourceDId)).to.equal(false);
 
       backend.simulateBeginDrag([sourceBId]);
       expect(monitor.isDraggingSource(sourceAId)).to.equal(false);
       expect(monitor.isDraggingSource(sourceBId)).to.equal(true);
       expect(monitor.isDraggingSource(sourceCId)).to.equal(false);
-      expect(() => monitor.isDraggingSource(sourceDId)).to.throwError();
+      expect(monitor.isDraggingSource(sourceDId)).to.equal(true);
 
       sourceA.number = 1;
       expect(monitor.isDraggingSource(sourceAId)).to.equal(true);

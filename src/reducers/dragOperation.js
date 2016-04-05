@@ -1,6 +1,6 @@
 import { BEGIN_DRAG, PUBLISH_DRAG_SOURCE, HOVER, END_DRAG, DROP } from '../actions/dragDrop';
 import { REMOVE_TARGET } from '../actions/registry';
-import without from 'lodash/array/without';
+import without from 'lodash/without';
 
 const initialState = {
   itemType: null,
@@ -30,10 +30,6 @@ export default function dragOperation(state = initialState, action) {
   case HOVER:
     return Object.assign({}, state, {
       targetIds: action.targetIds
-    });
-  case PUBLISH_DRAG_SOURCE:
-    return Object.assign({}, state, {
-      isSourcePublic: true
     });
   case REMOVE_TARGET:
     if (state.targetIds.indexOf(action.targetId) === -1) {

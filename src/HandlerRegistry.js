@@ -1,13 +1,13 @@
 import invariant from 'invariant';
-import keyMirror from 'keymirror';
-import isArray from 'lodash/lang/isArray';
+import isArray from 'lodash/isArray';
 import getNextUniqueId from './utils/getNextUniqueId';
 import { addSource, addTarget, removeSource, removeTarget } from './actions/registry';
+import asap from 'asap';
 
-const HandlerRoles = keyMirror({
-  SOURCE: null,
-  TARGET: null
-});
+const HandlerRoles = {
+  SOURCE: 'SOURCE',
+  TARGET: 'TARGET'
+};
 
 function validateSourceContract(source) {
   invariant(typeof source.canDrag === 'function', 'Expected canDrag to be a function.');
@@ -136,15 +136,21 @@ export default class HandlerRegistry {
   removeSource(sourceId) {
     invariant(this.getSource(sourceId), 'Expected an existing source.');
     this.store.dispatch(removeSource(sourceId));
-    delete this.handlers[sourceId];
-    delete this.types[sourceId];
+
+    asap(() => {
+      delete this.handlers[sourceId];
+      delete this.types[sourceId];
+    });
   }
 
   removeTarget(targetId) {
     invariant(this.getTarget(targetId), 'Expected an existing target.');
     this.store.dispatch(removeTarget(targetId));
-    delete this.handlers[targetId];
-    delete this.types[targetId];
+
+    asap(() => {
+      delete this.handlers[targetId];
+      delete this.types[targetId];
+    });
   }
 
   pinSource(sourceId) {
